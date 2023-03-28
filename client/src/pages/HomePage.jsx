@@ -1,6 +1,6 @@
-import React from 'react'
-
+import React, { useState } from "react"
 const HomePage = () => {
+    const [test, setTest] = useState(false)
     return (
         <div>HomePage</div>
     )
