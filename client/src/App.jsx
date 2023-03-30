@@ -5,8 +5,8 @@ import { ToastContainer } from "react-toastify";
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import routes from "./routes/routes.jsx";
-import PageWrapper from "./components/common/PageWrapper.jsx"
-import MainLayout from "./components/layout/MainLayout.jsx"
+import PageWrapper from "./components/common/PageWrapper.jsx";
+import MainLayout from "./components/layout/MainLayout.jsx";
 
 const App = () => {
   const { themeMode } = useSelector((state) => state.themeMode);
@@ -31,13 +31,19 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainLayout />}>
-            {routes.map((route, index) => (
+            {routes.map((route, index) =>
               route.index ? (
                 <Route
                   index
                   key={index}
                   element={
-                    route.state ? <PageWrapper state={route.state}>{route.element}</PageWrapper> : route.element
+                    route.state ? (
+                      <PageWrapper state={route.state}>
+                        {route.element}
+                      </PageWrapper>
+                    ) : (
+                      route.element
+                    )
                   }
                 />
               ) : (
@@ -45,12 +51,17 @@ const App = () => {
                   path={route.path}
                   key={index}
                   element={
-                    route.state ? <PageWrapper state={route.state}>{route.element}</PageWrapper> : route.element
+                    route.state ? (
+                      <PageWrapper state={route.state}>
+                        {route.element}
+                      </PageWrapper>
+                    ) : (
+                      route.element
+                    )
                   }
                 />
               )
-            ))
-            }
+            )}
           </Route>
         </Routes>
       </BrowserRouter>
