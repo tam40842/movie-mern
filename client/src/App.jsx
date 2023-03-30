@@ -7,7 +7,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import routes from "./routes/routes.jsx";
 import PageWrapper from "./components/common/PageWrapper.jsx"
 import MainLayout from "./components/layout/MainLayout.jsx"
-import HomePage from "./pages/HomePage.jsx";
 
 const App = () => {
   const { themeMode } = useSelector((state) => state.themeMode);
@@ -55,31 +54,6 @@ const App = () => {
           </Route>
         </Routes>
       </BrowserRouter>
-      {/* <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            {routes.map((route, index) => (
-              route.index ? (
-                <Route
-                  index
-                  key={index}
-                  element={route.state ? (
-                    <PageWrapper state={route.state}>{route.element}</PageWrapper>
-                  ) : route.element}
-                />
-              ) : (
-                <Route
-                  path={route.path}
-                  key={index}
-                  element={route.state ? (
-                    <PageWrapper state={route.state}>{route.element}</PageWrapper>
-                  ) : route.element}
-                />
-              )
-            ))}
-          </Route>
-        </Routes>
-      </BrowserRouter> */}
       {/* app routes */}
     </ThemeProvider>
   );
