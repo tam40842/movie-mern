@@ -17,7 +17,6 @@ router.post(
     .isLength({ min: 8 })
     .withMessage("username minium 8 characters")
     .custom(async (value) => {
-      console.log(value, "value");
       const user = await userModel.findOne({ username: value });
       if (user) return Promise.reject("username already used");
     }),
@@ -41,6 +40,7 @@ router.post(
     .withMessage("displayName is required")
     .isLength({ min: 8 })
     .withMessage("displayName minimum 8 character"),
+  // console.log(111),
   requestHandler.validate,
   userController.signup
 );

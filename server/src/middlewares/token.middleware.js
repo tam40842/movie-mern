@@ -1,36 +1,32 @@
-import jsonwebtoken from 'jsonwebtoken';
-import responseHandler from "../handlers/response.handler.js"
+import jsonwebtoken from "jsonwebtoken";
+import responseHandler from "../handlers/response.handler.js";
 import userModel from "../models/user.model.js";
 
 const tokenDecode = (req) => {
-    try {
-        const bearerHeader = req.headers["authorization"]
+  try {
+    const bearerHeader = req.headers["authorization"];
 
-        if (bearerHeader) {
-            const token = bearerHeader.split(" ")[1]
-            return jsonwebtoken.verify(
-                token,
-                process.env.TOKEN_SECRET
-            )
-        }
-        return false
-    } catch {
-        return false
+    if (bearerHeader) {
+      const token = bearerHeader.split(" ")[1];
+      return jsonwebtoken.verify(token, process.env.TOKEN_SECRET);
     }
-}
+    return false;
+  } catch {
+    return false;
+  }
+};
 
 const auth = async (req, res, next) => {
-    const tokenDecoded = tokenDecode(req)
+  const tokenDecoded = tokenDecode(req);
 
-    if (!tokenDecoded) return responseHandler.unAuthorize(Res)
-    console.log(tokenDecoded, 'tokenDecoded')
-    const user = await userModel.findById(tokenDecoded.data)
+  if (!tokenDecoded) return responseHandler.unAuthorize(Res);
+  const user = await userModel.findById(tokenDecoded.data);
 
-    if (!user) return responseHandler.unAuthorize(res)
+  if (!user) return responseHandler.unAuthorize(res);
 
-    req.user = user
+  req.user = user;
 
-    next()
-}
+  next();
+};
 
-export default { auth, tokenDecode }
+export default { auth, tokenDecode };

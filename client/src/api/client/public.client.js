@@ -1,9 +1,9 @@
 import axios from "axios";
 import querystring from "query-string";
-const baseUrl = "127.0.0.1:5000/api/v1";
+const baseURL = "http://localhost:5000/api/v1";
 
 const publicClient = axios.create({
-  baseUrl,
+  baseURL,
   paramsSerializer: {
     encode: (params) => querystring.stringify(params),
   },
@@ -25,6 +25,7 @@ publicClient.interceptors.response.use(
     return response;
   },
   (err) => {
+    console.log(err);
     throw err.response.data;
   }
 );
