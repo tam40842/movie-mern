@@ -5,7 +5,7 @@ const genreEndpoints = {
 };
 
 const genreApi = {
-  detail: async ({ mediaType }) => {
+  getList: async ({ mediaType }) => {
     try {
       const response = await publicClient.get(
         genreEndpoints.list({ mediaType })

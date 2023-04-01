@@ -1,7 +1,15 @@
-const HomePage = () => {
-    return (
-        <div></div>
-    )
-}
+import HeroSlide from "../components/common/HeroSlide";
+import tmdbConfigs from "../api/configs/tmdb.configs.js";
 
-export default HomePage
+const HomePage = () => {
+  return (
+    <div>
+      <HeroSlide
+        mediaType={tmdbConfigs.mediaType.movie}
+        mediaCategory={tmdbConfigs.mediaCategory.popular}
+      />
+    </div>
+  );
+};
+
+export default HomePage;
