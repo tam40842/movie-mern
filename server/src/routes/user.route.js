@@ -40,7 +40,6 @@ router.post(
     .withMessage("displayName is required")
     .isLength({ min: 8 })
     .withMessage("displayName minimum 8 character"),
-  // console.log(111),
   requestHandler.validate,
   userController.signup
 );
