@@ -20,12 +20,14 @@ const mediaApi = {
       return { err };
     }
   },
-  getDetail: async (mediaType, mediaId) => {
+  getDetail: async ({ mediaType, mediaId }) => {
     try {
-      const response = await privateClient.get(mediaEndpoints.detail, {
-        mediaType,
-        mediaId,
-      });
+      const response = await privateClient.get(
+        mediaEndpoints.detail({
+          mediaType,
+          mediaId,
+        })
+      );
       return { response };
     } catch (err) {
       console.log(err);

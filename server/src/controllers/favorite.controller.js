@@ -3,12 +3,12 @@ import favoriteModel from "../models/favorite.model.js";
 
 const addFavorite = async (req, res) => {
   try {
-    const isFavorite = favoriteModel.findOne({
+    const isFavorite = await favoriteModel.findOne({
       user: req.user.id,
       mediaId: req.body.mediaId,
     });
 
-    if (isFavorite) return responseHandler.ok(res, response);
+    if (isFavorite) return responseHandler.ok(res, isFavorite);
 
     const favorite = new favoriteModel({
       ...req.body,
@@ -32,9 +32,9 @@ const removeFavorite = async (req, res) => {
       _id: favoriteId,
     });
 
-    if (!favorite) return responseHandler.notFound(res);
+    if (!favorite) return responseHandler.notfound(res);
 
-    await favorite.remove();
+    await favorite.deleteOne();
 
     responseHandler.ok(res);
   } catch {

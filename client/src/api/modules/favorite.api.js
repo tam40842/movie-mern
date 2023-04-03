@@ -15,7 +15,7 @@ const favoriteApi = {
       return { err };
     }
   },
-  add: async (mediaId, mediaType, mediaTitle, mediaPoster, mediaRate) => {
+  add: async ({ mediaId, mediaType, mediaTitle, mediaPoster, mediaRate }) => {
     try {
       const response = await privateClient.post(favoriteEndpoints.add, {
         mediaId,
