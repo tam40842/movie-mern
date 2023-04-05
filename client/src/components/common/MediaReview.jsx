@@ -26,11 +26,12 @@ const ReviewItem = ({ review, onRemoved }) => {
     if (onRequest) return;
     setOnRequest(true);
 
-    const { reponse, err } = await reviewApi.remove({ reviewId: review.id });
+    const { response, err } = await reviewApi.remove({ reviewId: review.id });
 
     if (err) toast.error(err.message);
-    if (reponse) onRemoved(review.id);
+    if (response) onRemoved(review.id);
   };
+
   return (
     <Box
       sx={{
@@ -45,7 +46,6 @@ const ReviewItem = ({ review, onRemoved }) => {
         {/* avatar */}
         <TextAvatar text={review.user.displayName} />
         {/* avatar */}
-
         <Stack spacing={2} flexGrow={1}>
           <Stack spacing={1}>
             <Typography variant="h6" fontWeight="700">
@@ -72,7 +72,7 @@ const ReviewItem = ({ review, onRemoved }) => {
                 width: "max-content",
               }}
             >
-              Remove
+              remove
             </LoadingButton>
           )}
         </Stack>
@@ -113,9 +113,10 @@ const MediaReview = ({ reviews, media, mediaType }) => {
     const { response, err } = await reviewApi.add(body);
 
     setOnRequest(false);
+
     if (err) toast.error(err.message);
     if (response) {
-      toast.success("Post review sucess");
+      toast.success("Post review success");
 
       setFilteredReviews([...filteredReviews, response]);
       setReviewCount(reviewCount + 1);
@@ -126,7 +127,7 @@ const MediaReview = ({ reviews, media, mediaType }) => {
   const onLoadMore = () => {
     setFilteredReviews([
       ...filteredReviews,
-      ...[...listReviews.splice(page * skip, skip)],
+      ...[...listReviews].splice(page * skip, skip),
     ]);
     setPage(page + 1);
   };
@@ -141,21 +142,26 @@ const MediaReview = ({ reviews, media, mediaType }) => {
     }
 
     setReviewCount(reviewCount - 1);
-    toast.success("Remove review sucess");
+
+    toast.success("Remove review success");
   };
 
   return (
     <>
-      <Container header={`Reviews ${reviewCount}`}>
+      <Container header={`Reviews (${reviewCount})`}>
         <Stack spacing={4} marginBottom={2}>
-          {filteredReviews.map((item) => {
+          {filteredReviews.map((item) => (
             <Box key={item.id}>
-              <ReviewItem review={item} onRemove={onRemoved} />
-              <Divider sx={{ display: { xs: "block", md: "none" } }} />
-            </Box>;
-          })}
+              <ReviewItem review={item} onRemoved={onRemoved} />
+              <Divider
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              />
+            </Box>
+          ))}
           {filteredReviews.length < listReviews.length && (
-            <Button onClick={onLoadMore}>Load more</Button>
+            <Button onClick={onLoadMore}>load more</Button>
           )}
         </Stack>
         {user && (
@@ -163,7 +169,7 @@ const MediaReview = ({ reviews, media, mediaType }) => {
             <Divider />
             <Stack direction="row" spacing={2}>
               <TextAvatar text={user.displayName} />
-              <Stack spacing={1} flexGrow={1}>
+              <Stack spacing={2} flexGrow={1}>
                 <Typography variant="h6" fontWeight="700">
                   {user.displayName}
                 </Typography>
@@ -175,7 +181,17 @@ const MediaReview = ({ reviews, media, mediaType }) => {
                   placeholder="Write your review"
                   variant="outlined"
                 />
-                <LoadingButton></LoadingButton>
+                <LoadingButton
+                  variant="contained"
+                  size="large"
+                  sx={{ width: "max-content" }}
+                  startIcon={<SendOutlinedIcon />}
+                  loadingPosition="start"
+                  loading={onRequest}
+                  onClick={onAddReview}
+                >
+                  post
+                </LoadingButton>
               </Stack>
             </Stack>
           </>
@@ -184,3 +200,5 @@ const MediaReview = ({ reviews, media, mediaType }) => {
     </>
   );
 };
+
+export default MediaReview;

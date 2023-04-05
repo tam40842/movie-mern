@@ -32,9 +32,9 @@ const remove = async (req, res) => {
       user: req.user.id,
     });
 
-    if (!reivew) return responseHandler.notFound(res);
+    if (!review) return responseHandler.notFound(res);
 
-    await review.remove();
+    await review.deleteOne();
 
     responseHandler.ok(res);
 
@@ -43,7 +43,8 @@ const remove = async (req, res) => {
       id: review.id,
       user: req.user,
     });
-  } catch {
+  } catch (e) {
+    console.log(e);
     responseHandler.error(res);
   }
 };

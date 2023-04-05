@@ -92,7 +92,8 @@ const getInfo = async (req, res) => {
     if (!user) return responseHandler.notFound(res);
 
     responseHandler.ok(res, user);
-  } catch {
+  } catch (e) {
+    console.log(e);
     responseHandler.error(res);
   }
 };
