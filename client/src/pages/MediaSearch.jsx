@@ -47,7 +47,33 @@ const MediaSearch = () => {
     setPage(1);
   }, [mediaType]);
 
-  return <div>MediaSearch</div>;
+  const onCategoryChange = (selectedCategory) => setMediaType(selectedCategory);
+
+  const onQueryChange = (e) => {
+    const newQuery = e.target.value;
+    clearTimeout(timer);
+
+    timer = setTimeout(() => {
+      setQuery(newQuery);
+    }, timeout);
+  };
+
+  return <>
+    <Toolbar />
+    <Box sx={...uiConfigs.style.mainContent}>
+      <Stack spacing={2}
+      direction="row"
+      justifyContent={"center"}
+      sx={{width: "100%"}}
+      >
+        {mediaTypes.map(item, index) => (
+          <Button size="large" key={index} variant={mediaType === item ? "contained" : "text"} sx={{color: mediaType === item ? "primary.contrastText": "text.primary"}} onClick={() => onCategoryChange(item)}>
+            {item}
+          </Button>
+        )}
+      </Stack>
+    </Box>
+  </>;
 };
 
 export default MediaSearch;
