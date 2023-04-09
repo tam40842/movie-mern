@@ -25,7 +25,6 @@ const auth = async (req, res, next) => {
   if (!user) return responseHandler.unAuthorize(res);
 
   req.user = user;
-
   next();
 };
 

@@ -16,7 +16,7 @@ export const routesGen = {
   person: (id) => `/person/${id}`,
   favoriteList: "/favorites",
   reviewList: "/reviews",
-  passwordUpdate: "password-update",
+  passwordUpdate: "/password-update",
 };
 
 const routes = [
@@ -24,7 +24,7 @@ const routes = [
     index: true,
     element: <HomePage />,
     state: "home",
-    path: '/'
+    path: "/",
   },
   {
     path: "/person/:personId",

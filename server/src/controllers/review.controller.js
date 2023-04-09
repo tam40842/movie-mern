@@ -27,24 +27,17 @@ const remove = async (req, res) => {
   try {
     const { reviewId } = req.params;
 
-    const review = reviewModel.findOne({
+    const review = await reviewModel.findOne({
       _id: reviewId,
       user: req.user.id,
     });
 
-    if (!review) return responseHandler.notFound(res);
+    if (!review) return responseHandler.notfound(res);
 
-    await review.deleteOne();
+    await review.remove();
 
     responseHandler.ok(res);
-
-    responseHandler.created(res, {
-      ...review._doc,
-      id: review.id,
-      user: req.user,
-    });
-  } catch (e) {
-    console.log(e);
+  } catch {
     responseHandler.error(res);
   }
 };
@@ -55,7 +48,7 @@ const getReviewsOfUser = async (req, res) => {
       .find({
         user: req.user.id,
       })
-      .sort(-createdAt);
+      .sort("-createdAt");
 
     responseHandler.ok(res, reviews);
   } catch {
@@ -63,8 +56,4 @@ const getReviewsOfUser = async (req, res) => {
   }
 };
 
-export default {
-  create,
-  remove,
-  getReviewsOfUser,
-};
+export default { create, remove, getReviewsOfUser };

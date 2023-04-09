@@ -19,6 +19,7 @@ const MediaSearch = () => {
 
   const search = useCallback(async () => {
     setOnSearch(true);
+
     const { response, err } = await mediaApi.search({
       mediaType,
       query,
@@ -35,12 +36,11 @@ const MediaSearch = () => {
   }, [mediaType, query, page]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     if (query.trim().length === 0) {
       setMedias([]);
       setPage(1);
     } else search();
-  }, [search, query, mediaType]);
+  }, [search, query, mediaType, page]);
 
   useEffect(() => {
     setMedias([]);
@@ -58,22 +58,53 @@ const MediaSearch = () => {
     }, timeout);
   };
 
-  return <>
-    <Toolbar />
-    <Box sx={...uiConfigs.style.mainContent}>
-      <Stack spacing={2}
-      direction="row"
-      justifyContent={"center"}
-      sx={{width: "100%"}}
-      >
-        {mediaTypes.map(item, index) => (
-          <Button size="large" key={index} variant={mediaType === item ? "contained" : "text"} sx={{color: mediaType === item ? "primary.contrastText": "text.primary"}} onClick={() => onCategoryChange(item)}>
-            {item}
-          </Button>
-        )}
-      </Stack>
-    </Box>
-  </>;
+  return (
+    <>
+      <Toolbar />
+      <Box sx={{ ...uiConfigs.style.mainContent }}>
+        <Stack spacing={2}>
+          <Stack
+            spacing={2}
+            direction="row"
+            justifyContent="center"
+            sx={{ width: "100%" }}
+          >
+            {mediaTypes.map((item, index) => (
+              <Button
+                size="large"
+                key={index}
+                variant={mediaType === item ? "contained" : "text"}
+                sx={{
+                  color:
+                    mediaType === item
+                      ? "primary.contrastText"
+                      : "text.primary",
+                }}
+                onClick={() => onCategoryChange(item)}
+              >
+                {item}
+              </Button>
+            ))}
+          </Stack>
+          <TextField
+            color="success"
+            placeholder="Search MoonFlix"
+            sx={{ width: "100%" }}
+            autoFocus
+            onChange={onQueryChange}
+          />
+
+          <MediaGrid medias={medias} mediaType={mediaType} />
+
+          {medias.length > 0 && (
+            <LoadingButton loading={onSearch} onClick={() => setPage(page + 1)}>
+              load more
+            </LoadingButton>
+          )}
+        </Stack>
+      </Box>
+    </>
+  );
 };
 
 export default MediaSearch;

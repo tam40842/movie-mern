@@ -1,8 +1,8 @@
 import publicClient from "../client/public.client.js";
 
 const personEndpoitns = {
-  detail: ({ personId }) => `reviews/${personId}`,
-  medias: ({ personId }) => `reviews/${personId}/medias`,
+  detail: ({ personId }) => `person/${personId}`,
+  medias: ({ personId }) => `person/${personId}/medias`,
 };
 
 const personApi = {
