@@ -1,6 +1,6 @@
 import axios from "axios";
 import querystring from "query-string";
-const baseURL = "http://localhost:5000/api/v1";
+const baseURL = process.env.BASE_URL || "http://localhost:5000/api/v1";
 
 const privateClient = axios.create({
   baseURL,
